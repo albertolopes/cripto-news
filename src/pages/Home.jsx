@@ -36,7 +36,7 @@ export default function Home() {
         isLoading.current = true;
         try {
             const res = await fetch(
-                `http://localhost:3000/noticias?page=${pageNumber + 1}&limit=${limit}`
+                `https://cripto-price-i8c1.onrender.com/noticias?page=${pageNumber + 1}&limit=${limit}`
             );
             const data = await res.json();
 
