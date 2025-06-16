@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
-import AdBanner from "./AdBanner";  // <-- importando o componente externo
+import AdBanner900x90 from "./AdBanner900x90.jsx";
+import AdBanner300x250 from "./AdBanner300x250.jsx";
 
 const renderLink = ({ href, children }) => (
     <a
@@ -28,19 +29,17 @@ export default function Home() {
     const [page, setPage] = useState(0);
     const [totalPages, setTotalPages] = useState(1);
     const [isFirstLoad, setIsFirstLoad] = useState(true);
-    const isLoading = useRef(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const limit = 10;
 
     const fetchNoticias = async (pageNumber) => {
-        if (isLoading.current || pageNumber >= totalPages) return;
+        if (isLoading || pageNumber >= totalPages) return;
 
-        isLoading.current = true;
+        setIsLoading(true);
         try {
             const res = await fetch(
-                `https://cripto-price-i8c1.onrender.com/noticias?page=${
-                    pageNumber + 1
-                }&limit=${limit}`
+                `https://cripto-price-i8c1.onrender.com/noticias?page=${pageNumber + 1}&limit=${limit}`
             );
             const data = await res.json();
 
@@ -52,7 +51,7 @@ export default function Home() {
         } catch (error) {
             console.error("Erro ao carregar notícias:", error);
         } finally {
-            isLoading.current = false;
+            setIsLoading(false);
             setIsFirstLoad(false);
         }
     };
@@ -66,7 +65,7 @@ export default function Home() {
             if (
                 window.innerHeight + window.scrollY >=
                 document.body.offsetHeight - 500 &&
-                !isLoading.current &&
+                !isLoading &&
                 page < totalPages
             ) {
                 fetchNoticias(page);
@@ -75,7 +74,7 @@ export default function Home() {
 
         window.addEventListener("scroll", onScroll);
         return () => window.removeEventListener("scroll", onScroll);
-    }, [page, totalPages]);
+    }, [page, totalPages, isLoading]);
 
     const toggleExpand = (id) => {
         setExpandida(expandida === id ? null : id);
@@ -83,19 +82,16 @@ export default function Home() {
 
     return (
         <div className="min-h-screen bg-white text-black px-0 sm:px-2">
+            <AdBanner900x90 />
             <main className="w-full max-w-5xl mx-auto bg-white rounded-xl mt-4 sm:mt-6 md:mt-10">
                 {isFirstLoad ? (
                     <div className="flex justify-center items-center h-[50vh]">
                         <div
-                            className="w-10 h-10 rounded-full animate-spin bg-gradient-to-r from-purple-500 via-pink-500 to-orange-400
-                          mask mask-circle"
+                            className="w-10 h-10 rounded-full animate-spin bg-gradient-to-r from-purple-500 via-pink-500 to-orange-400 mask mask-circle"
                         ></div>
                     </div>
                 ) : (
                     <>
-                        {/* Banner antes da lista */}
-                        <AdBanner />
-
                         <div className="space-y-4 sm:space-y-6">
                             {noticias.map(({ _id, titulo, resumo, textoCompleto, data }, idx) => (
                                 <React.Fragment key={_id}>
@@ -129,22 +125,31 @@ export default function Home() {
                                                 {expandida === _id ? "Mostrar menos" : "Mostrar mais"}
                                             </p>
                                             <span className="text-sm text-gray-500 select-none">
-                                                {formatarData(data)}
-                                            </span>
+                        {formatarData(data)}
+                      </span>
                                         </div>
                                     </article>
 
-                                    {(idx + 1) % 10 === 0 && (
+                                    {(idx + 1) % 15 === 0 && (
                                         <div className="flex justify-center my-6">
-                                            <AdBanner />
+                                            <AdBanner300x250 />
                                         </div>
                                     )}
                                 </React.Fragment>
                             ))}
                         </div>
 
-                        {isLoading.current && (
-                            <p className="text-center mt-6 font-semibold text-gray-600">
+                        {isLoading && (
+                            <p
+                                className="text-center mt-6 font-semibold"
+                                style={{
+                                    background: "linear-gradient(to right, #8b5cf6, #ec4899, #f97316)",
+                                    WebkitBackgroundClip: "text",
+                                    WebkitTextFillColor: "transparent",
+                                    backgroundClip: "text",
+                                    color: "transparent",
+                                }}
+                            >
                                 Carregando...
                             </p>
                         )}
