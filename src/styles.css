@@ -15,3 +15,18 @@
     white-space: nowrap;
 }
 
+@media (max-width: 640px) {
+    @keyframes marquee-mobile {
+        0% {
+            transform: translateX(5%);
+        }
+        100% {
+            transform: translateX(-100%);
+        }
+    }
+
+    .animate-marquee {
+        animation: marquee-mobile 120s linear infinite;
+    }
+}
+
