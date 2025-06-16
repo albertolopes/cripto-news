@@ -81,63 +81,48 @@ export default function Home() {
     };
 
     return (
-        <div className="min-h-screen bg-white text-black px-0 sm:px-2">
-            <main className="w-full max-w-5xl mx-auto bg-white rounded-xl mt-4 sm:mt-6 md:mt-10">
-                {isFirstLoad ? (
-                    <div className="flex justify-center items-center h-[50vh]">
-                        <div className="w-10 h-10 rounded-full animate-spin bg-gradient-to-r from-purple-500 via-pink-500 to-orange-400
-                          mask mask-circle"></div>
-                    </div>
-                ) : (
-                    <>
-                        <div className="space-y-4 sm:space-y-6">
-                            {noticias.map(({ _id, titulo, resumo, textoCompleto, data }) => (
-                                <article
-                                    key={_id}
-                                    onClick={() => toggleExpand(_id)}
-                                    className="w-full p-3 sm:p-5 bg-white rounded-none sm:rounded-lg shadow-sm sm:shadow-md hover:shadow-md transition-shadow cursor-pointer border-b sm:border border-gray-300"
+        <div className="space-y-4 sm:space-y-6">
+            <div id="cointraffic-banner-top" className="w-full flex justify-center my-4"></div>
+
+            {noticias.map(({ _id, titulo, resumo, textoCompleto, data }, index) => (
+                <React.Fragment key={_id}>
+                    <article
+                        onClick={() => toggleExpand(_id)}
+                        className="w-full p-3 sm:p-5 bg-white rounded-none sm:rounded-lg shadow-sm sm:shadow-md hover:shadow-md transition-shadow cursor-pointer border-b sm:border border-gray-300"
+                    >
+                        <h2 className="text-base sm:text-lg md:text-xl font-semibold mb-2">{titulo}</h2>
+
+                        {expandida === _id ? (
+                            <div className="prose prose-sm sm:prose md:prose-lg prose-gray max-w-none">
+                                <ReactMarkdown
+                                    components={{
+                                        a: renderLink,
+                                        hr: () => null,
+                                    }}
                                 >
-                                    <h2 className="text-base sm:text-lg md:text-xl font-semibold mb-2">
-                                        {titulo}
-                                    </h2>
-
-                                    {expandida === _id ? (
-                                        <div className="prose prose-sm sm:prose md:prose-lg prose-gray max-w-none">
-                                            <ReactMarkdown
-                                                components={{
-                                                    a: renderLink,
-                                                    hr: () => null,
-                                                }}
-                                            >
-                                                {textoCompleto}
-                                            </ReactMarkdown>
-                                        </div>
-                                    ) : (
-                                        <p className="mb-2 text-gray-800 break-words text-justify">
-                                            {resumo}
-                                        </p>
-                                    )}
-
-                                    <div className="mt-2 flex justify-between items-center">
-                                        <p className="text-blue-600 underline">
-                                            {expandida === _id ? "Mostrar menos" : "Mostrar mais"}
-                                        </p>
-                                        <span className="text-sm text-gray-500 select-none">
-                    {formatarData(data)}
-                  </span>
-                                    </div>
-                                </article>
-                            ))}
-                        </div>
-
-                        {isLoading.current && (
-                            <p className="text-center mt-6 font-semibold text-gray-600">
-                                Carregando...
-                            </p>
+                                    {textoCompleto}
+                                </ReactMarkdown>
+                            </div>
+                        ) : (
+                            <p className="mb-2 text-gray-800 break-words text-justify">{resumo}</p>
                         )}
-                    </>
-                )}
-            </main>
+
+                        <div className="mt-2 flex justify-between items-center">
+                            <p className="text-blue-600 underline">
+                                {expandida === _id ? "Mostrar menos" : "Mostrar mais"}
+                            </p>
+                            <span className="text-sm text-gray-500 select-none">
+                                {formatarData(data)}
+                            </span>
+                        </div>
+                    </article>
+                    {(index + 1) % 10 === 0 && (
+                        <div id={`cointraffic-banner-${index}`} className="w-full flex justify-center my-4"></div>
+                    )}
+                </React.Fragment>
+            ))}
+            <div id="cointraffic-banner-bottom" className="w-full flex justify-center my-6"></div>
         </div>
+
     );
 }
