@@ -26,6 +26,7 @@ export default function Home() {
     const [expandida, setExpandida] = useState(null);
     const [page, setPage] = useState(0);
     const [totalPages, setTotalPages] = useState(1);
+    const [isFirstLoad, setIsFirstLoad] = useState(true);
     const isLoading = useRef(false);
 
     const limit = 10;
@@ -36,7 +37,9 @@ export default function Home() {
         isLoading.current = true;
         try {
             const res = await fetch(
-                `https://cripto-price-i8c1.onrender.com/noticias?page=${pageNumber + 1}&limit=${limit}`
+                `https://cripto-price-i8c1.onrender.com/noticias?page=${
+                    pageNumber + 1
+                }&limit=${limit}`
             );
             const data = await res.json();
 
@@ -49,6 +52,7 @@ export default function Home() {
             console.error("Erro ao carregar notícias:", error);
         } finally {
             isLoading.current = false;
+            setIsFirstLoad(false);
         }
     };
 
@@ -77,48 +81,61 @@ export default function Home() {
     };
 
     return (
-        <div className="min-h-screen bg-white text-black">
-            <main className="max-w-5xl w-full mx-auto bg-white rounded-xl p-12 mt-10">
-                <div className="space-y-6">
-                    {noticias.map(({ _id, titulo, resumo, textoCompleto, data }) => (
-                        <article
-                            key={_id}
-                            onClick={() => toggleExpand(_id)}
-                            className="relative p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer border border-gray-300"
-                        >
-                            <h2 className="text-2xl font-semibold mb-2">{titulo}</h2>
+        <div className="min-h-screen bg-white text-black px-0 sm:px-2">
+            <main className="w-full max-w-5xl mx-auto bg-white rounded-xl mt-4 sm:mt-6 md:mt-10">
+                {isFirstLoad ? (
+                    <div className="flex justify-center items-center h-[50vh]">
+                        <div className="w-10 h-10 rounded-full animate-spin bg-gradient-to-r from-purple-500 via-pink-500 to-orange-400
+                          mask mask-circle"></div>
+                    </div>
+                ) : (
+                    <>
+                        <div className="space-y-4 sm:space-y-6">
+                            {noticias.map(({ _id, titulo, resumo, textoCompleto, data }) => (
+                                <article
+                                    key={_id}
+                                    onClick={() => toggleExpand(_id)}
+                                    className="w-full p-3 sm:p-5 bg-white rounded-none sm:rounded-lg shadow-sm sm:shadow-md hover:shadow-md transition-shadow cursor-pointer border-b sm:border border-gray-300"
+                                >
+                                    <h2 className="text-base sm:text-lg md:text-xl font-semibold mb-2">
+                                        {titulo}
+                                    </h2>
 
-                            {expandida === _id ? (
-                                <div className="prose prose-lg prose-gray max-w-none">
-                                    <ReactMarkdown
-                                        components={{
-                                            a: renderLink,
-                                            hr: () => null, // remove linha horizontal indesejada
-                                        }}
-                                    >
-                                        {textoCompleto}
-                                    </ReactMarkdown>
-                                </div>
-                            ) : (
-                                <p className="mb-2 text-gray-800">{resumo}</p>
-                            )}
+                                    {expandida === _id ? (
+                                        <div className="prose prose-sm sm:prose md:prose-lg prose-gray max-w-none">
+                                            <ReactMarkdown
+                                                components={{
+                                                    a: renderLink,
+                                                    hr: () => null,
+                                                }}
+                                            >
+                                                {textoCompleto}
+                                            </ReactMarkdown>
+                                        </div>
+                                    ) : (
+                                        <p className="mb-2 text-gray-800 break-words text-justify">
+                                            {resumo}
+                                        </p>
+                                    )}
 
-                            <p className="mt-2 text-blue-600 underline">
-                                {expandida === _id ? "Mostrar menos" : "Mostrar mais"}
+                                    <div className="mt-2 flex justify-between items-center">
+                                        <p className="text-blue-600 underline">
+                                            {expandida === _id ? "Mostrar menos" : "Mostrar mais"}
+                                        </p>
+                                        <span className="text-sm text-gray-500 select-none">
+                    {formatarData(data)}
+                  </span>
+                                    </div>
+                                </article>
+                            ))}
+                        </div>
+
+                        {isLoading.current && (
+                            <p className="text-center mt-6 font-semibold text-gray-600">
+                                Carregando...
                             </p>
-
-                            {/* Data no canto inferior direito */}
-                            <span className="absolute bottom-4 right-4 text-sm text-gray-500 select-none">
-                {formatarData(data)}
-              </span>
-                        </article>
-                    ))}
-                </div>
-
-                {isLoading.current && (
-                    <p className="text-center mt-6 font-semibold text-gray-600">
-                        Carregando...
-                    </p>
+                        )}
+                    </>
                 )}
             </main>
         </div>
