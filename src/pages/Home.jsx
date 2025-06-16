@@ -82,7 +82,15 @@ export default function Home() {
 
     return (
         <div className="min-h-screen bg-white text-black px-0 sm:px-2">
-            <AdBanner900x90 />
+
+            <div className="hidden md:block">
+                <AdBanner900x90 />
+            </div>
+
+            <div className="block md:hidden">
+                <AdBanner300x250 />
+            </div>
+
             <main className="w-full max-w-5xl mx-auto bg-white rounded-xl mt-4 sm:mt-6 md:mt-10">
                 {isFirstLoad ? (
                     <div className="flex justify-center items-center h-[50vh]">
@@ -125,15 +133,21 @@ export default function Home() {
                                                 {expandida === _id ? "Mostrar menos" : "Mostrar mais"}
                                             </p>
                                             <span className="text-sm text-gray-500 select-none">
-                        {formatarData(data)}
-                      </span>
+                                                {formatarData(data)}
+                                            </span>
                                         </div>
                                     </article>
 
                                     {(idx + 1) % 15 === 0 && (
-                                        <div className="flex justify-center my-6">
-                                            <AdBanner300x250 />
-                                        </div>
+                                        <>
+                                            <div className="hidden md:block">
+                                                <AdBanner900x90 />
+                                            </div>
+
+                                            <div className="block md:hidden">
+                                                <AdBanner300x250 />
+                                            </div>
+                                        </>
                                     )}
                                 </React.Fragment>
                             ))}
