@@ -148,7 +148,6 @@ export default function Home() {
                                 Carregando...
                             </p>
                         )}
-                        <AdBanner />
                     </>
                 )}
             </main>
