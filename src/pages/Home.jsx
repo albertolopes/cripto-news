@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
+import AdBanner from "./AdBanner";  // <-- importando o componente externo
 
 const renderLink = ({ href, children }) => (
     <a
@@ -85,48 +86,60 @@ export default function Home() {
             <main className="w-full max-w-5xl mx-auto bg-white rounded-xl mt-4 sm:mt-6 md:mt-10">
                 {isFirstLoad ? (
                     <div className="flex justify-center items-center h-[50vh]">
-                        <div className="w-10 h-10 rounded-full animate-spin bg-gradient-to-r from-purple-500 via-pink-500 to-orange-400
-                          mask mask-circle"></div>
+                        <div
+                            className="w-10 h-10 rounded-full animate-spin bg-gradient-to-r from-purple-500 via-pink-500 to-orange-400
+                          mask mask-circle"
+                        ></div>
                     </div>
                 ) : (
                     <>
+                        {/* Banner antes da lista */}
+                        <AdBanner />
+
                         <div className="space-y-4 sm:space-y-6">
-                            {noticias.map(({ _id, titulo, resumo, textoCompleto, data }) => (
-                                <article
-                                    key={_id}
-                                    onClick={() => toggleExpand(_id)}
-                                    className="w-full p-3 sm:p-5 bg-white rounded-none sm:rounded-lg shadow-sm sm:shadow-md hover:shadow-md transition-shadow cursor-pointer border-b sm:border border-gray-300"
-                                >
-                                    <h2 className="text-base sm:text-lg md:text-xl font-semibold mb-2">
-                                        {titulo}
-                                    </h2>
+                            {noticias.map(({ _id, titulo, resumo, textoCompleto, data }, idx) => (
+                                <React.Fragment key={_id}>
+                                    <article
+                                        onClick={() => toggleExpand(_id)}
+                                        className="w-full p-3 sm:p-5 bg-white rounded-none sm:rounded-lg shadow-sm sm:shadow-md hover:shadow-md transition-shadow cursor-pointer border-b sm:border border-gray-300"
+                                    >
+                                        <h2 className="text-base sm:text-lg md:text-xl font-semibold mb-2">
+                                            {titulo}
+                                        </h2>
 
-                                    {expandida === _id ? (
-                                        <div className="prose prose-sm sm:prose md:prose-lg prose-gray max-w-none">
-                                            <ReactMarkdown
-                                                components={{
-                                                    a: renderLink,
-                                                    hr: () => null,
-                                                }}
-                                            >
-                                                {textoCompleto}
-                                            </ReactMarkdown>
+                                        {expandida === _id ? (
+                                            <div className="prose prose-sm sm:prose md:prose-lg prose-gray max-w-none">
+                                                <ReactMarkdown
+                                                    components={{
+                                                        a: renderLink,
+                                                        hr: () => null,
+                                                    }}
+                                                >
+                                                    {textoCompleto}
+                                                </ReactMarkdown>
+                                            </div>
+                                        ) : (
+                                            <p className="mb-2 text-gray-800 break-words text-justify">
+                                                {resumo}
+                                            </p>
+                                        )}
+
+                                        <div className="mt-2 flex justify-between items-center">
+                                            <p className="text-blue-600 underline">
+                                                {expandida === _id ? "Mostrar menos" : "Mostrar mais"}
+                                            </p>
+                                            <span className="text-sm text-gray-500 select-none">
+                                                {formatarData(data)}
+                                            </span>
                                         </div>
-                                    ) : (
-                                        <p className="mb-2 text-gray-800 break-words text-justify">
-                                            {resumo}
-                                        </p>
-                                    )}
+                                    </article>
 
-                                    <div className="mt-2 flex justify-between items-center">
-                                        <p className="text-blue-600 underline">
-                                            {expandida === _id ? "Mostrar menos" : "Mostrar mais"}
-                                        </p>
-                                        <span className="text-sm text-gray-500 select-none">
-                    {formatarData(data)}
-                  </span>
-                                    </div>
-                                </article>
+                                    {(idx + 1) % 10 === 0 && (
+                                        <div className="flex justify-center my-6">
+                                            <AdBanner />
+                                        </div>
+                                    )}
+                                </React.Fragment>
                             ))}
                         </div>
 
@@ -135,6 +148,7 @@ export default function Home() {
                                 Carregando...
                             </p>
                         )}
+                        <AdBanner />
                     </>
                 )}
             </main>
