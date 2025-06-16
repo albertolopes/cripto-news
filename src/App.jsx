@@ -3,11 +3,13 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import logo from "./assets/logo.png";
 import Home from "./pages/Home.jsx";
 import Sobre from "./pages/Sobre.jsx";
+import Ticker from "./components/Ticker.jsx"; // Faixa de preços
 
 export default function App() {
     return (
         <Router>
             <div className="min-h-screen bg-white text-black">
+                {/* Cabeçalho */}
                 <header className="w-full bg-gradient-to-r from-purple-700 via-pink-600 to-orange-500 p-4 shadow-md">
                     <nav className="max-w-5xl mx-auto flex justify-between items-center text-white font-semibold">
                         <div className="flex items-center gap-4">
@@ -28,6 +30,10 @@ export default function App() {
                         </ul>
                     </nav>
                 </header>
+
+                <div className="sticky top-0 z-50">
+                    <Ticker />
+                </div>
 
                 <main className="max-w-5xl w-full mx-auto p-6 mt-1">
                     <Routes>
