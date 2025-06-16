@@ -3,13 +3,14 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import logo from "./assets/logo.png";
 import Home from "./pages/Home.jsx";
 import Sobre from "./pages/Sobre.jsx";
-import Ticker from "./components/Ticker.jsx"; // Faixa de preços
+import Ticker from "./components/Ticker.jsx";
+import AdBanner from "./pages/AdBanner.jsx";
 
 export default function App() {
     return (
         <Router>
             <div className="min-h-screen bg-white text-black">
-                {/* Cabeçalho */}
+                <AdBanner />
                 <header className="w-full bg-gradient-to-r from-purple-700 via-pink-600 to-orange-500 p-4 shadow-md">
                     <nav className="max-w-5xl mx-auto flex justify-between items-center text-white font-semibold">
                         <div className="flex items-center gap-4">
