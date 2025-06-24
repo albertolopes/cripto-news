@@ -16,11 +16,22 @@ const renderLink = ({ href, children }) => (
 
 const formatarData = (dataISO) => {
     const data = new Date(dataISO);
-    return data.toLocaleDateString("pt-BR", {
+    
+    const dataFormatada = data.toLocaleDateString("pt-BR", {
         day: "2-digit",
         month: "long",
         year: "numeric",
+        timeZone: "America/Sao_Paulo"
     });
+
+    const horaFormatada = data.toLocaleTimeString("pt-BR", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+        timeZone: "America/Sao_Paulo"
+    });
+
+    return `${dataFormatada} às ${horaFormatada}`;
 };
 
 export default function Home() {
