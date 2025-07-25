@@ -2,60 +2,116 @@ import React from "react";
 
 export default function Sobre() {
     return (
-        <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
-            <h1 className="text-3xl font-bold mb-6 text-center">Sobre o Cripto Bot</h1>
+        <div className="max-w-3xl mx-auto p-6 bg-white rounded-xl shadow-md mt-8 border border-gray-100">
+            <div className="flex flex-col items-center mb-8">
+                <div className="rounded-full p-3 shadow bg-gray-100 mb-3">
+                    <span role="img" aria-label="Bot" className="text-3xl">🤖</span>
+                </div>
+                <h1 className="text-3xl font-bold mb-2 text-center text-gray-800">
+                    Sobre o Cripto Bot
+                </h1>
+                <p className="text-base text-gray-700 text-center max-w-2xl mt-2">
+                    O <span className="font-bold text-purple-700">Cripto Bot</span> é um assistente inteligente que utiliza <span className="font-semibold text-purple-700">Inteligência Artificial</span> (<span className="italic">DeepSeek</span>) para analisar, resumir e entregar notícias relevantes do universo cripto em tempo real.
+                </p>
+            </div>
 
-            <p className="mb-6 text-gray-700 leading-relaxed">
-                Nosso bot inteligente é impulsionado por <strong>Inteligência Artificial avançada</strong> fornecida pela plataforma <em>DeepSeek</em>, permitindo análise e respostas rápidas e precisas.
-                Com integrações diretas ao <strong>Telegram</strong> e ao <strong>X (antigo Twitter)</strong>, o bot mantém você conectado aos seus canais favoritos, entregando notícias e atualizações em tempo real.
-                Todo o processo é orquestrado por meio de <strong>GitHub Actions</strong>, garantindo uma automação robusta e confiável para deploy contínuo e manutenção constante, sem intervenção manual.
-            </p>
+            <div className="mb-8">
+                <h2 className="text-xl font-semibold mb-3 text-gray-800">
+                    Como funciona?
+                </h2>
+                <ul className="list-disc list-inside text-gray-800 space-y-2 pl-2">
+                    <li>
+                        <span className="font-semibold text-purple-700">Coleta automática:</span> O bot monitora fontes confiáveis de notícias cripto 24/7.
+                    </li>
+                    <li>
+                        <span className="font-semibold text-purple-700">Análise com IA:</span> Utiliza modelos avançados para resumir, filtrar e destacar o que realmente importa.
+                    </li>
+                    <li>
+                        <span className="font-semibold text-purple-700">Entrega instantânea:</span> Publica as notícias nos canais do <b>Telegram</b> e <b>X (antigo Twitter)</b> em tempo real.
+                    </li>
+                    <li>
+                        <span className="font-semibold text-purple-700">Automação total:</span> Todo o fluxo é orquestrado por <b>GitHub Actions</b> para garantir deploys contínuos e manutenção sem intervenção manual.
+                    </li>
+                </ul>
+            </div>
 
-            <h2 className="text-2xl font-semibold mb-4">Contato</h2>
-            <ul className="list-disc list-inside text-gray-800 space-y-2">
-                <li>
-                    <strong>Email:</strong>{" "}
-                    <a
-                        href="mailto:albertolopes@mail.com"
-                        className="text-blue-600 hover:underline"
-                    >
-                        albertolopes@mail.com
-                    </a>
-                </li>
-                <li>
-                    <strong>GitHub:</strong>{" "}
-                    <a
-                        href="https://github.com/albertolopes"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-600 hover:underline"
-                    >
-                        albertolopes
-                    </a>
-                </li>
-                <li>
-                    <strong>Perfil do bot no X:</strong>{" "}
-                    <a
-                        href="https://x.com/avocado_x_bot"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-600 hover:underline"
-                    >
-                        https://x.com/avocado_x_bot
-                    </a>
-                </li>
-                <li>
-                    <strong>Telegram:</strong>{" "}
-                    <a
-                        href="https://t.me/AvocadreamBot"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-600 hover:underline"
-                    >
-                        t.me/AvocadreamBot
-                    </a>
-                </li>
-            </ul>
+            <div className="mb-8">
+                <h2 className="text-xl font-semibold mb-3 text-gray-800">Principais Recursos</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="bg-gray-50 rounded-lg p-4 shadow flex flex-col gap-2 border border-gray-100">
+                        <span className="font-bold text-gray-800">Notícias em tempo real</span>
+                        <span className="text-gray-700 text-sm">Receba as últimas novidades do mercado cripto assim que elas acontecem.</span>
+                    </div>
+                    <div className="bg-gray-50 rounded-lg p-4 shadow flex flex-col gap-2 border border-gray-100">
+                        <span className="font-bold text-gray-800">Resumos inteligentes</span>
+                        <span className="text-gray-700 text-sm">A IA resume e destaca os pontos mais importantes de cada notícia.</span>
+                    </div>
+                    <div className="bg-gray-50 rounded-lg p-4 shadow flex flex-col gap-2 border border-gray-100">
+                        <span className="font-bold text-gray-800">Integração com Telegram & X</span>
+                        <span className="text-gray-700 text-sm">Acompanhe tudo nos seus canais favoritos, sem ruído.</span>
+                    </div>
+                    <div className="bg-gray-50 rounded-lg p-4 shadow flex flex-col gap-2 border border-gray-100">
+                        <span className="font-bold text-gray-800">Automação & Open Source</span>
+                        <span className="text-gray-700 text-sm">Código aberto, deploy automatizado e manutenção transparente.</span>
+                    </div>
+                </div>
+            </div>
+
+            <div className="mb-8">
+                <h2 className="text-xl font-semibold mb-3 text-gray-800">Contato & Links</h2>
+                <ul className="space-y-3 text-gray-800">
+                    <li className="flex items-center gap-2">
+                        <span role="img" aria-label="Email" className="text-purple-700">✉️</span>
+                        <span className="font-semibold">Email:</span>
+                        <a
+                            href="mailto:albertolopes@mail.com"
+                            className="text-purple-700 hover:underline"
+                        >
+                            albertolopes@mail.com
+                        </a>
+                    </li>
+                    <li className="flex items-center gap-2">
+                        <span role="img" aria-label="GitHub" className="text-purple-700">🐙</span>
+                        <span className="font-semibold">GitHub:</span>
+                        <a
+                            href="https://github.com/albertolopes"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-purple-700 hover:underline"
+                        >
+                            albertolopes
+                        </a>
+                    </li>
+                    <li className="flex items-center gap-2">
+                        <span role="img" aria-label="Twitter/X" className="text-purple-700">🐦</span>
+                        <span className="font-semibold">Bot no X:</span>
+                        <a
+                            href="https://x.com/avocado_x_bot"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-purple-700 hover:underline"
+                        >
+                            @avocado_x_bot
+                        </a>
+                    </li>
+                    <li className="flex items-center gap-2">
+                        <span role="img" aria-label="Telegram" className="text-purple-700">📢</span>
+                        <span className="font-semibold">Telegram:</span>
+                        <a
+                            href="https://t.me/AvocadreamBot"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-purple-700 hover:underline"
+                        >
+                            t.me/AvocadreamBot
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div className="text-center text-xs text-gray-400 mt-8">
+                &copy; {new Date().getFullYear()} Cripto Bot &mdash; Feito com <span className="text-purple-700">♥</span> por <a href="https://github.com/albertolopes" className="underline hover:text-gray-700" target="_blank" rel="noopener noreferrer">albertolopes</a>
+            </div>
         </div>
     );
 }
