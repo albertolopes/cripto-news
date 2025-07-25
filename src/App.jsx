@@ -65,7 +65,7 @@ export default function App() {
                 <div className="sticky top-0 z-50">
                     <Ticker />
                 </div>
-
+                        
                 <main className="max-w-5xl w-full mx-auto p-6 mt-1">
                     <Routes>
                         <Route path="/" element={<Home />} />
@@ -73,6 +73,39 @@ export default function App() {
                         <Route path="/grafico" element={<TradingViewEmbed />} />
                     </Routes>
                 </main>
+
+            {(() => {
+                const [showButton, setShowButton] = React.useState(false);
+
+                React.useEffect(() => {
+                    const handleScroll = () => {
+                        if (window.scrollY > 100) {
+                            setShowButton(true);
+                        } else {
+                            setShowButton(false);
+                        }
+                    };
+                    window.addEventListener('scroll', handleScroll);
+                    return () => window.removeEventListener('scroll', handleScroll);
+                }, []);
+
+                const scrollToTop = () => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                };
+
+                return showButton ? (
+                    <button
+                        onClick={scrollToTop}
+                        className="fixed bottom-6 right-6 z-50 bg-purple-600 hover:bg-purple-700 text-white rounded-full p-3 shadow-lg transition-all duration-200 flex items-center justify-center"
+                        aria-label="Voltar ao topo"
+                        style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                        </svg>
+                    </button>
+                ) : null;
+            })()}
             </div>
         </Router>
     );
