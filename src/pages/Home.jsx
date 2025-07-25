@@ -192,7 +192,7 @@ export default function Home() {
                                                 )}
 
                                                 <div className="mt-1 flex justify-between items-center">
-                                                    <p className="text-xs font-medium mb-0 group-hover:text-purple-700 transition-colors text-black">
+                                                    <p className="text-xs font-medium mb-0 text-purple-700 group-hover:text-purple-700 transition-colors">
                                                         {expandida === _id ? "Mostrar menos ▲" : "Mostrar mais ▼"}
                                                     </p>
                                                     <span className="text-xs text-gray-400 select-none">
