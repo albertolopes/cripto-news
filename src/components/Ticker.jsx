@@ -9,7 +9,7 @@ export default function Ticker() {
                 const res = await fetch("https://cripto-price-i8c1.onrender.com/trending");
                 if (!res.ok) throw new Error("Erro ao buscar criptos");
                 const data = await res.json();
-                // Mapear para nome e preco conforme seu backend
+
                 const formatted = data.map((c) => ({
                     nome: c.name,
                     preco: c.price,

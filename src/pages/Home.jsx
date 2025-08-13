@@ -72,25 +72,42 @@ export default function Home() {
     const [isFirstLoad, setIsFirstLoad] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const [erro, setErro] = useState(null);
+    const [palavraChave, setPalavraChave] = useState("");
+    const [isSearching, setIsSearching] = useState(false);
 
     const limit = 10;
 
-    const fetchNoticias = async (pageNumber = page) => {
+    const fetchNoticias = async (pageNumber = page, searchTerm = palavraChave) => {
         if (isLoading || pageNumber >= totalPages) return;
 
         setIsLoading(true);
         setErro(null);
         try {
-            const res = await fetch(
-                `https://cripto-price-i8c1.onrender.com/noticias?page=${pageNumber + 1}&limit=${limit}`
-            );
+            let url = `http://localhost:3000/noticias?page=${pageNumber + 1}&limit=${limit}`;
+            
+            if (searchTerm.trim()) {
+                url += `&q=${encodeURIComponent(searchTerm.trim())}`;
+            }
+
+            const res = await fetch(url);
             if (!res.ok) throw new Error("Erro ao buscar notícias");
             const data = await res.json();
 
             if (data?.results?.length > 0) {
-                setNoticias((prev) => [...prev, ...data.results]);
+                if (pageNumber === 0) {
+                    // Se é a primeira página, substitui as notícias
+                    setNoticias(data.results);
+                } else {
+                    // Se não é a primeira página, adiciona às existentes
+                    setNoticias((prev) => [...prev, ...data.results]);
+                }
                 setTotalPages(data.totalPages);
                 setPage(pageNumber + 1);
+            } else if (pageNumber === 0) {
+                // Se é a primeira página e não há resultados, limpa as notícias
+                setNoticias([]);
+                setTotalPages(1);
+                setPage(0);
             }
         } catch (error) {
             setErro("Erro ao carregar notícias. Tente novamente.");
@@ -98,7 +115,24 @@ export default function Home() {
         } finally {
             setIsLoading(false);
             setIsFirstLoad(false);
+            setIsSearching(false);
         }
+    };
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+        setIsSearching(true);
+        setPage(0);
+        setTotalPages(1);
+        fetchNoticias(0, palavraChave);
+    };
+
+    const handleClearSearch = () => {
+        setPalavraChave("");
+        setIsSearching(true);
+        setPage(0);
+        setTotalPages(1);
+        fetchNoticias(0, "");
     };
 
     useEffect(() => {
@@ -120,14 +154,80 @@ export default function Home() {
 
     return (
         <div className="min-h-screen bg-white text-black px-0 sm:px-2">
-            <div className="hidden md:block">
+            {/* <div className="hidden md:block">
                 <AdBanner900x90 />
-            </div>
-            <div className="block md:hidden">
+            </div> */}
+            {/* <div className="block md:hidden">
                 <AdBanner300x250 />
-            </div>
+            </div> */}
 
             <main className="w-full max-w-5xl mx-auto bg-white rounded-xl mt-4 sm:mt-6 md:mt-10">
+                {/* Campo de busca */}
+                <div className="mb-6 p-2 sm:p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border border-purple-200">
+                    <form
+                        onSubmit={handleSearch}
+                        className="flex flex-col gap-2 sm:flex-row sm:gap-3"
+                    >
+                        <div className="flex-1 relative">
+                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg
+                                    className="h-4 w-4 text-purple-400"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                                    />
+                                </svg>
+                            </div>
+                            <input
+                                type="text"
+                                value={palavraChave}
+                                onChange={(e) => setPalavraChave(e.target.value)}
+                                placeholder="Buscar notícias por palavra-chave..."
+                                className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-purple-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm sm:text-base"
+                                style={{ paddingLeft: '3rem' }}
+                                disabled={isSearching}
+                            />
+                        </div>
+                        <div className="flex flex-col gap-2 sm:flex-row sm:gap-2 w-full sm:w-auto">
+                            <button
+                                type="submit"
+                                disabled={isSearching}
+                                className="w-full sm:w-auto px-4 py-2 sm:px-6 sm:py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm sm:text-base"
+                            >
+                                {isSearching ? (
+                                    <>
+                                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                                        Buscando...
+                                    </>
+                                ) : (
+                                    "Buscar"
+                                )}
+                            </button>
+                            {palavraChave && (
+                                <button
+                                    type="button"
+                                    onClick={handleClearSearch}
+                                    disabled={isSearching}
+                                    className="w-full sm:w-auto px-4 py-2 sm:py-3 bg-gray-500 text-white font-semibold rounded-lg hover:bg-gray-600 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
+                                >
+                                    Limpar
+                                </button>
+                            )}
+                        </div>
+                    </form>
+                    {palavraChave && (
+                        <div className="mt-2 sm:mt-3 text-xs sm:text-sm text-purple-600">
+                            Buscando por: <span className="font-semibold">"{palavraChave}"</span>
+                        </div>
+                    )}
+                </div>
+
                 {erro && (
                     <div className="bg-red-100 border border-red-300 text-red-700 px-4 py-2 rounded mb-4 text-center">
                         {erro}
@@ -150,7 +250,7 @@ export default function Home() {
                     <>
                         {noticias.length === 0 ? (
                             <div className="text-center text-gray-500 py-16">
-                                Nenhuma notícia encontrada.
+                                {palavraChave ? `Nenhuma notícia encontrada para "${palavraChave}".` : "Nenhuma notícia encontrada."}
                             </div>
                         ) : (
                             <div className="space-y-4 sm:space-y-6">
@@ -201,7 +301,7 @@ export default function Home() {
                                                 </div>  
                                             </article>
 
-                                            {(idx + 1) % 15 === 0 && (
+                                            {/* {(idx + 1) % 15 === 0 && (
                                                 <>
                                                     <div className="hidden md:block">
                                                         <AdBanner900x90 />
@@ -210,7 +310,7 @@ export default function Home() {
                                                         <AdBanner300x250 />
                                                     </div>
                                                 </>
-                                            )}
+                                            )} */}
                                         </React.Fragment>
                                     );
                                 })}
@@ -232,17 +332,7 @@ export default function Home() {
                                     Carregando...
                                 </span>
                             </div>
-                        )}
-                        {!isLoading && hasMore && (
-                            <div className="flex justify-center mt-8">
-                                <button
-                                    onClick={() => fetchNoticias(page)}
-                                    className="px-6 py-2 bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 text-white font-semibold rounded-lg shadow hover:scale-105 transition"
-                                >
-                                    Carregar mais notícias
-                                </button>
-                            </div>
-                        )}
+                        )}                        
                     </>
                 )}
             </main>
