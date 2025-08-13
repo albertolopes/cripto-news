@@ -83,7 +83,7 @@ export default function Home() {
         setIsLoading(true);
         setErro(null);
         try {
-            let url = `http://localhost:3000/noticias?page=${pageNumber + 1}&limit=${limit}`;
+            let url = `https://cripto-price-i8c1.onrender.com/noticias?page=${pageNumber + 1}&limit=${limit}`;
             
             if (searchTerm.trim()) {
                 url += `&q=${encodeURIComponent(searchTerm.trim())}`;
