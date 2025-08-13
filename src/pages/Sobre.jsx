@@ -108,10 +108,6 @@ export default function Sobre() {
                     </li>
                 </ul>
             </div>
-
-            <div className="text-center text-xs text-gray-400 mt-8">
-                &copy; {new Date().getFullYear()} Cripto Bot &mdash; Feito com <span className="text-purple-700">♥</span> por <a href="https://github.com/albertolopes" className="underline hover:text-gray-700" target="_blank" rel="noopener noreferrer">albertolopes</a>
-            </div>
         </div>
     );
 }
