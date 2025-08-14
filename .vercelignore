@@ -1,0 +1,10 @@
+node_modules
+.git
+.idea
+*.log
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+README.md
+LICENSE
