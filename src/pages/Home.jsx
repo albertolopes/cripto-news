@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
-import AdBanner900x90 from "./AdBanner900x90.jsx";
-import AdBanner300x250 from "./AdBanner300x250.jsx";
 
 const renderLink = ({ href, children }) => (
     <a
@@ -154,13 +152,6 @@ export default function Home() {
 
     return (
         <div className="min-h-screen bg-white text-black px-0 sm:px-2">
-            {/* <div className="hidden md:block">
-                <AdBanner900x90 />
-            </div> */}
-            {/* <div className="block md:hidden">
-                <AdBanner300x250 />
-            </div> */}
-
             <main className="w-full max-w-5xl mx-auto bg-white rounded-xl mt-4 sm:mt-6 md:mt-10">
                 {/* Campo de busca */}
                 <div className="mb-6 p-2 sm:p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border border-purple-200">
@@ -301,16 +292,7 @@ export default function Home() {
                                                 </div>  
                                             </article>
 
-                                            {/* {(idx + 1) % 15 === 0 && (
-                                                <>
-                                                    <div className="hidden md:block">
-                                                        <AdBanner900x90 />
-                                                    </div>
-                                                    <div className="block md:hidden">
-                                                        <AdBanner300x250 />
-                                                    </div>
-                                                </>
-                                            )} */}
+
                                         </React.Fragment>
                                     );
                                 })}
