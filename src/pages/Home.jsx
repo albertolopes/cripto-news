@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
+import { buildApiUrl } from "../config/api.js";
 
 const renderLink = ({ href, children }) => (
     <a
@@ -81,7 +82,7 @@ export default function Home() {
         setIsLoading(true);
         setErro(null);
         try {
-            let url = `https://cripto-price-i8c1.onrender.com/noticias?page=${pageNumber + 1}&limit=${limit}`;
+            let url = `${buildApiUrl('/noticias')}?page=${pageNumber + 1}&limit=${limit}`;
             
             if (searchTerm.trim()) {
                 url += `&q=${encodeURIComponent(searchTerm.trim())}`;

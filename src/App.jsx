@@ -1,13 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import logo from "./assets/logo.png";
 import Home from "./pages/Home.jsx";
 import Sobre from "./pages/Sobre.jsx";
 import Ticker from "./components/Ticker.jsx";
 import TradingViewEmbed from "./pages/TradingViewEmbed.jsx";
+import { API_URLS } from "./config/api.js";
 
 export default function App() {
     const [menuOpen, setMenuOpen] = useState(false);
+
+    useEffect(() => {
+        fetch(API_URLS.ACESSO, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).catch((err) => {
+
+        });
+    }, []);
+
     return (
         <Router>
             <div className="min-h-screen bg-white text-black">

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { API_URLS } from "../config/api.js";
 
 export default function Ticker() {
     const [criptos, setCriptos] = useState([]);
@@ -6,7 +7,7 @@ export default function Ticker() {
     useEffect(() => {
         async function fetchCriptos() {
             try {
-                const res = await fetch("https://cripto-price-i8c1.onrender.com/trending");
+                const res = await fetch(API_URLS.TRENDING);
                 if (!res.ok) throw new Error("Erro ao buscar criptos");
                 const data = await res.json();
 

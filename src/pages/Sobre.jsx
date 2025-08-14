@@ -1,6 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { API_URLS } from "../config/api.js";
 
 export default function Sobre() {
+    const [totalAcessos, setTotalAcessos] = useState(null);
+    const [loadingAcessos, setLoadingAcessos] = useState(true);
+
+    useEffect(() => {
+        async function fetchAcessos() {
+            try {
+                setLoadingAcessos(true);
+                const res = await fetch(API_URLS.ACESSOS_TOTAL);
+                if (!res.ok) throw new Error("Erro ao buscar acessos");
+                const data = await res.json();
+                // Suporta tanto { total: 123 } quanto apenas um número
+                setTotalAcessos(data.total ?? data);
+            } catch (e) {
+                setTotalAcessos(null);
+            } finally {
+                setLoadingAcessos(false);
+            }
+        }
+        fetchAcessos();
+    }, []);
+
     return (
         <div className="max-w-3xl mx-auto p-6 bg-white rounded-xl shadow-md mt-8 border border-gray-100">
             <div className="flex flex-col items-center mb-8">
@@ -107,6 +129,17 @@ export default function Sobre() {
                         </a>
                     </li>
                 </ul>
+            </div>
+
+            {/* Total de acessos - discreto, no final */}
+            <div className="mt-10 text-xs text-gray-400 text-right select-none">
+                {loadingAcessos ? (
+                    <span>Acessos ao site: <span className="italic text-gray-300">carregando...</span></span>
+                ) : totalAcessos !== null ? (
+                    <span>Acessos ao site: <span className="font-mono">{totalAcessos}</span></span>
+                ) : (
+                    <span>Acessos ao site: <span className="italic text-gray-300">indisponível</span></span>
+                )}
             </div>
         </div>
     );
