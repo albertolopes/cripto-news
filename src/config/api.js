@@ -10,8 +10,15 @@ export const API_CONFIG = {
 };
 
 // Função helper para construir URLs completas
-export const buildApiUrl = (endpoint) => {
-  return `${API_CONFIG.BASE_URL}${endpoint}`;
+export const buildApiUrl = (endpoint, params = {}) => {
+  const url = new URL(`${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS[endpoint.toUpperCase()]}`);
+  
+  // Adicionar parâmetros de consulta, se houver
+  Object.keys(params).forEach(key => {
+    url.searchParams.append(key, params[key]);
+  });
+  
+  return url.toString();
 };
 
 // URLs pré-construídas para uso direto

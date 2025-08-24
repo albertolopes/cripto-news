@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+"use client";
+
+import { useState, useEffect } from "react";
 import { API_URLS } from "../config/api.js";
 
 export default function Ticker() {
@@ -37,9 +39,9 @@ export default function Ticker() {
             <div className="animate-marquee inline-block min-w-full">
                 {criptos.map((cripto, index) => (
                     <span key={index} className="mx-8 inline-block">
-            🔹 {cripto.nome}:{" "}
+                        🔹 {cripto.nome}:{" "}
                         <span className="font-semibold">{cripto.preco}</span>
-          </span>
+                    </span>
                 ))}
             </div>
         </div>
