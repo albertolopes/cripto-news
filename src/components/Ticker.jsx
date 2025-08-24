@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { API_URLS } from "../config/api.js";
+import React, { useState, useEffect } from "react";
+import { buildApiUrl } from "../config/api.js";
 
 export default function Ticker() {
     const [criptos, setCriptos] = useState([]);
@@ -9,21 +9,31 @@ export default function Ticker() {
     useEffect(() => {
         async function fetchCriptos() {
             try {
-                const res = await fetch(API_URLS.TRENDING);
+                const res = await fetch(buildApiUrl('trending'));
                 if (!res.ok) throw new Error("Erro ao buscar criptos");
                 const data = await res.json();
 
-                const formatted = data.map((c) => ({
-                    nome: c.name,
-                    preco: c.price,
+                // Transform the data into the required format
+                const formatted = Object.entries(data).map(([key, value]) => ({
+                    name: value.name,
+                    preco: value.price
                 }));
+                
                 setCriptos(formatted);
             } catch (err) {
-                console.error(err);
+                console.error("Error fetching crypto data:", err);
+                // Set empty array to avoid undefined errors
+                setCriptos([]);
             }
         }
 
         fetchCriptos();
+        
+        // Set up interval to fetch data every 30 seconds
+        const interval = setInterval(fetchCriptos, 30000);
+        
+        // Cleanup interval on component unmount
+        return () => clearInterval(interval);
     }, []);
 
     if (criptos.length === 0) {
@@ -39,7 +49,7 @@ export default function Ticker() {
             <div className="animate-marquee inline-block min-w-full">
                 {criptos.map((cripto, index) => (
                     <span key={index} className="mx-8 inline-block">
-                        🔹 {cripto.nome}:{" "}
+                        🔹 {cripto.name}:{" "}
                         <span className="font-semibold">{cripto.preco}</span>
                     </span>
                 ))}

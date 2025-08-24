@@ -96,7 +96,7 @@ export default function Home() {
                 throw new Error("Invalid API URL");
             }
 
-            let url = `${baseUrl}?page=${pageNumber + 1}&limit=${limit}`;
+            let url = `${buildApiUrl('noticias')}?page=${pageNumber + 1}&limit=${limit}`;
             
             if (searchTerm.trim()) {
                 url += `&q=${encodeURIComponent(searchTerm.trim())}`;
